@@ -15,9 +15,14 @@ import (
 type (
 	RegisterRequest struct {
 		Name                 string `json:"name" validate:"required"`
-		Email                string `json:"email" validate:"required,email"`
+		Email                string `json:"email" validate:"required,email,max=255"`
 		Password             string `json:"password" validate:"required,min=8,max=32"`
 		PasswordConfirmation string `json:"password_confirmation" validate:"required,min=8,max=32"`
+	}
+
+	LoginRequest struct {
+		Email    string `json:"email" validate:"required,email,max=255"`
+		Password string `json:"password" validate:"required,max=32,min=8"`
 	}
 
 	CustomValidator struct {

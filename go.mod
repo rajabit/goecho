@@ -5,6 +5,12 @@ go 1.21.6
 require github.com/labstack/echo-jwt/v4 v4.2.0
 
 require (
+	github.com/fsnotify/fsnotify v1.4.7 // indirect
+	github.com/gorilla/websocket v1.4.1 // indirect
+	github.com/omeid/livereload v0.0.0-20180903043807-18d58b752b26 // indirect
+)
+
+require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect

@@ -4,21 +4,20 @@ package main
 import (
 	"blogito/app/controllers"
 	"blogito/app/requests"
-	"blogito/database"
+	"blogito/models"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/joho/godotenv"
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
+
 	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
 	/** init database **/
-	database.Sql()
-
-	/** init database **/
-	database.Sql()
+	models.Query()
 	e := echo.New()
 
 	e.Validator = &requests.CustomValidator{Validator: validator.New()}
@@ -27,25 +26,23 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	// Login route
-	e.POST("/login", controllers.Login)
+	// Basic Routes
+	e.GET("/", controllers.Home)
+	e.POST("/auth/register", controllers.Register)
+	e.POST("/auth/login", controllers.Login)
 
-	// Unauthenticated route
-	e.GET("/", controllers.Accessible)
-	e.GET("/auth/register", controllers.Register)
-
-	// Restricted group
-	r := e.Group("/restricted")
-
-	// Configure middleware with the custom claims type
+	// Auth Routes
+	r := e.Group("")
+	envFile, _ := godotenv.Read(".env")
+	secret := envFile["APP_KEY"]
 	config := echojwt.Config{
 		NewClaimsFunc: func(c echo.Context) jwt.Claims {
 			return new(controllers.JwtCustomClaims)
 		},
-		SigningKey: []byte("secret"),
+		SigningKey: []byte(secret),
 	}
 	r.Use(echojwt.WithConfig(config))
-	r.GET("", controllers.Restricted)
+	r.GET("/auth/user", controllers.User)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }
