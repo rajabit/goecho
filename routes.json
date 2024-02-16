@@ -1,0 +1,52 @@
+[
+  {
+    "method": "echo_route_not_found",
+    "path": "",
+    "name": "github.com/labstack/echo/v4.glob..func1"
+  },
+  {
+    "method": "echo_route_not_found",
+    "path": "/admin",
+    "name": "github.com/labstack/echo/v4.glob..func1"
+  },
+  {
+    "method": "GET",
+    "path": "/",
+    "name": "blogito/app/controllers.Home"
+  },
+  {
+    "method": "POST",
+    "path": "/auth/login",
+    "name": "blogito/app/controllers.Login"
+  },
+  {
+    "method": "echo_route_not_found",
+    "path": "/*",
+    "name": "github.com/labstack/echo/v4.glob..func1"
+  },
+  {
+    "method": "GET",
+    "path": "/auth/user",
+    "name": "blogito/app/controllers.User"
+  },
+  {
+    "method": "echo_route_not_found",
+    "path": "/admin/*",
+    "name": "github.com/labstack/echo/v4.glob..func1"
+  },
+  {
+    "method": "GET",
+    "path": "/admin/posts",
+    "name": "blogito/app/controllers.AdminPostIndex"
+  },
+  {
+    "method": "GET",
+    "path": "/*",
+    "name": "github.com/labstack/echo/v4.(*Echo).Static.StaticDirectoryHandler.func1"
+  },
+  {
+    "method": "POST",
+    "path": "/auth/register",
+    "name": "blogito/app/controllers.Register"
+  }
+]

@@ -3,6 +3,7 @@ package models
 import (
 	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -18,6 +19,7 @@ type User struct {
 	Name      string `json:"Name" gorm:"type:varchar(255);not null"`
 	Email     string `json:"Email" gorm:"type:varchar(255);unique_index;not null"`
 	Status    string `json:"Status" gorm:"type:varchar(32);index;default:active;not null"`
+	Type      string `json:"Type" gorm:"type:varchar(32);index;default:default;not null"`
 	Password  string `json:"-" gorm:"type:varchar(255);not null"`
 	Token     string `json:"Token" gorm:"-:all"`
 	CreatedAt time.Time
@@ -40,6 +42,14 @@ type Post struct {
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt
 }
+
+
+type JwtCustomClaims struct {
+	UserId uint   `json:"user_id"`
+	Type   string `json:"type"`
+	jwt.RegisteredClaims
+}
+
 
 func Query() *gorm.DB {
 	if db == nil {

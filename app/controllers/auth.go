@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"time"
 
+	"blogito/app/models"
 	"blogito/app/requests"
-	"blogito/models"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/joho/godotenv"
@@ -13,11 +13,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm/clause"
 )
-
-type JwtCustomClaims struct {
-	UserId uint `json:"user_id"`
-	jwt.RegisteredClaims
-}
 
 func Register(c echo.Context) (err error) {
 	/** validation **/
@@ -74,7 +69,7 @@ func Accessible(c echo.Context) error {
 
 func User(c echo.Context) error {
 	user := c.Get("user").(*jwt.Token)
-	claims := user.Claims.(*JwtCustomClaims)
+	claims := user.Claims.(*models.JwtCustomClaims)
 	var model models.User
 
 	res := models.Query().Preload(clause.Associations).Find(&model, claims.UserId)
@@ -89,9 +84,10 @@ func User(c echo.Context) error {
 func GenerateToken(user models.User) string {
 	envFile, _ := godotenv.Read(".env")
 
-	claims := &JwtCustomClaims{
-		user.ID,
-		jwt.RegisteredClaims{
+	claims := &models.JwtCustomClaims{
+		UserId: user.ID,
+		Type:   user.Type,
+		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 72)),
 		},
 	}
