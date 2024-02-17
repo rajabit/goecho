@@ -6,8 +6,6 @@ import (
 	"blogito/app/middlewares"
 	"blogito/app/models"
 	"blogito/app/requests"
-	"encoding/json"
-	"os"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/golang-jwt/jwt/v5"
