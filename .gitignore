@@ -2,3 +2,5 @@
 .env
 tmp
 air
+air.exe
+routes.json

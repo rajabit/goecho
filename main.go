@@ -58,11 +58,11 @@ func main() {
 	g.Use(middlewares.AdminMiddleware)
 	g.GET("/posts", controllers.AdminPostIndex)
 
-	data, err := json.MarshalIndent(e.Routes(), "", "  ")
-	if err != nil {
-		println(err)
-	}
-	os.WriteFile("routes.json", data, 0644)
+	// data, err := json.MarshalIndent(e.Routes(), "", "  ")
+	// if err != nil {
+	// 	println(err)
+	// }
+	// os.WriteFile("routes.json", data, 0644)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }
