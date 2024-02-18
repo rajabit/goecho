@@ -31,8 +31,34 @@ body {
 }
 
 @layer base {
+
+  body,
+  html {
+    @apply h-full
+  }
+
+  svg {
+    @apply w-6 h-6
+  }
+
+  hr {
+    @apply bg-zinc-800 border-zinc-800
+  }
+
+  .x-header {
+    @apply fixed top-0 h-16 px-5 flex justify-center items-center border-b dark:border-zinc-800 backdrop-blur-sm dark:bg-zinc-900 w-full;
+  }
+
   .btn {
-    @apply flex justify-center items-center rounded-md px-5 py-2 text-sm leading-5 font-semibold text-white cursor-pointer select-none focus:outline-none focus:ring duration-150 ease-in-out
+    @apply flex justify-center items-center rounded-md px-3 py-2 text-sm leading-5 font-semibold text-white cursor-pointer select-none focus:outline-none focus:ring duration-150 ease-in-out
+  }
+
+  .btn svg {
+    @apply h-6 w-6 dark:text-white me-1
+  }
+
+  .btn:has(svg) {
+    @apply pr-4
   }
 
   .btn.default {
@@ -43,5 +69,68 @@ body {
     @apply bg-violet-500 hover:bg-violet-600 active:bg-violet-700 focus:ring-violet-300
   }
 
+  .btn.slate {
+    @apply bg-slate-500 hover:bg-slate-600 active:bg-slate-700 focus:ring-slate-300
+  }
 
+  .btn.blue {
+    @apply bg-blue-500 hover:bg-blue-600 active:bg-blue-700 focus:ring-blue-300
+  }
+
+  .outlined {
+    @apply bg-none active:bg-slate-700 focus:ring-slate-300;
+    background-color: transparent !important;
+  }
+
+  .card {
+    @apply border border-zinc-800 rounded-md shadow-md bg-zinc-900
+  }
+
+  .card>.title {
+    @apply px-4 py-3 text-xl font-semibold flex justify-start items-center
+  }
+
+  .card>.title.center {
+    @apply !justify-center
+  }
+
+  .card>.content {
+    @apply py-2 px-4 block
+  }
+
+  .card>.actions {
+    @apply w-full flex justify-end items-center p-2
+  }
+
+  .input {
+    @apply w-full flex justify-center items-center dark:bg-zinc-950 rounded-md font-semibold focus-within:outline-none focus-within:ring duration-150 ease-in-out focus-within:ring-violet-300 border border-zinc-800
+  }
+
+  .input[aria-errormessage=true] {
+    @apply focus-within:ring-rose-500 border-rose-500
+  }
+
+  .input svg {
+    @apply h-6 w-6 dark:text-white ms-1 me-4
+  }
+
+  .input input {
+    @apply w-full px-4 py-2 leading-6 dark:text-white bg-transparent focus:outline-none focus:ring-0 rounded-md
+  }
+
+  .input:has(svg) input {
+    @apply !pe-2
+  }
+
+  ul.errors {
+    @apply text-rose-500 text-sm py-1 px-4 rounded-md list-disc
+  }
+
+  .container {
+    @apply w-full h-full mx-auto
+  }
+
+  .container.middle {
+    @apply flex justify-center items-center
+  }
 }

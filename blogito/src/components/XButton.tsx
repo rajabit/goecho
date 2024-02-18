@@ -24,11 +24,10 @@ const XButton: React.FC<ButtonProps> = ({
       <LoadingSVG />
       {loading_message}
     </>
-  ) : (
-    <>{children}</>
-  );
+  ) : children;
 
-  const className = `btn ${model} ${color}`;
+  const className = `btn ${model} ${color} ${props.className??""}`;
+  delete props.className;
 
   return (
     <button className={className} {...props}>
