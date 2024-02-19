@@ -78,7 +78,7 @@ body {
   }
 
   .outlined {
-    @apply bg-none active:bg-slate-700 focus:ring-slate-300;
+    @apply bg-none active:bg-slate-700 focus:ring-slate-300 hover:dark:text-white/70 hover:text-black/70;
     background-color: transparent !important;
   }
 

@@ -1,4 +1,6 @@
-const BASE_API = process.env.APP_URL;
+import { resolve } from "path";
+
+const BASE_API = process.env.APP_URL || "http://localhost:1323";
 
 const defaultHeaders = {
   "Content-Type": "application/json; charset=utf-8",
@@ -42,8 +44,11 @@ const get = async (url: string, params?: any): Promise<any> => {
 };
 
 const post = async (url: string, body?: any): Promise<any> => {
-  const response = await fetch(urlBuilder(url), requestBuilder("POST", body));
-  return await response.json();
+  return new Promise(async (resolve, reject) => {
+    const response = await fetch(urlBuilder(url), requestBuilder("POST", body));
+    if (response.ok) return resolve(await response.json());
+    else return reject(response);
+  });
 };
 
 const put = async (url: string, body?: any): Promise<any> => {
@@ -80,10 +85,10 @@ interface UserResponse {
   Email: string;
   Status: string;
   Type: string;
-  Token: string;
+  Token?: string;
   CreatedAt: string;
   UpdatedAt: string;
-  DeletedAt: string;
+  DeletedAt?: string;
 }
 
 const login = async ({
