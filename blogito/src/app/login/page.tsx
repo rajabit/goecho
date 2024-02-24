@@ -2,18 +2,18 @@
 
 import XButton from "@/components/XButton";
 import XInput from "@/components/XInput";
-import { useState } from "react";
 import {
   ChevronRightIcon,
   UserIcon,
   AtSymbolIcon,
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import "react-toastify/dist/ReactToastify.css";
 import XLink from "@/components/XLink";
 import api from "@/api";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useRouter } from "next/router";
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
@@ -42,21 +42,22 @@ export default function Login() {
     api
       .login({ email, password })
       .then((val) => {
-        localStorage.setItem("jwt", val.Token ?? "");
-        delete val.Token;
-        localStorage.setItem("user", JSON.stringify(val));
         toast.success(`Welcome Back ${val.Name}`);
-        router.push("/dashboard");
+        router.replace("/dashboard");
       })
       .catch(async (reason) => {
-        if (reason.status == 401) {
-          setEmailError(["Invalid credential"]);
-        } else if (reason.status == 400) {
-          let errors = await reason.json();
-          if (errors["LoginRequest.Email"])
-            setEmailError([errors["LoginRequest.Email"]]);
-          if (errors["LoginRequest.Password"])
-            setPasswordError([errors["LoginRequest.Password"]]);
+        try {
+          if (reason.status == 401) {
+            setEmailError(["Invalid credential"]);
+          } else if (reason.status == 400) {
+            let errors = await reason.json();
+            if (errors["LoginRequest.Email"])
+              setEmailError([errors["LoginRequest.Email"]]);
+            if (errors["LoginRequest.Password"])
+              setPasswordError([errors["LoginRequest.Password"]]);
+          }
+        } catch (ex) {
+          setLoading(false);
         }
       })
       .finally(() => setLoading(false));

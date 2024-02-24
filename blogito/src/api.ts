@@ -1,18 +1,14 @@
-import { resolve } from "path";
-
-const BASE_API = process.env.APP_URL || "http://localhost:1323";
-
 const defaultHeaders = {
   "Content-Type": "application/json; charset=utf-8",
   Accept: "application/json; charset=utf-8",
 };
 
 const Methods = {
-  Login: "/auth/login",
-  Register: "/auth/register",
-  User: "/auth/user",
-  Home: "/",
-  AdminPostIndex: "/admin/posts",
+  Login: "/api/auth/login",
+  Register: "/api/auth/register",
+  User: "/api/auth/user",
+  Home: "/api",
+  AdminPostIndex: "/api/admin/posts",
 };
 
 const requestBuilder = (
@@ -23,7 +19,6 @@ const requestBuilder = (
     method: method,
     headers: {
       ...defaultHeaders,
-      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
     },
     body: body !== undefined ? JSON.stringify(body) : null,
   };
@@ -33,14 +28,20 @@ const requestBuilder = (
 const urlBuilder = (method: string, params?: any): string => {
   const queryString = new URLSearchParams(params).toString();
   if (params === undefined) {
-    return `${BASE_API}${method}`;
+    return `${method}`;
   }
-  return `${BASE_API}${method}?${queryString}`;
+  return `${method}?${queryString}`;
 };
 
 const get = async (url: string, params?: any): Promise<any> => {
-  const response = await fetch(urlBuilder(url, params), requestBuilder("GET"));
-  return await response.json();
+  return new Promise(async (resolve, reject) => {
+    const response = await fetch(
+      urlBuilder(url, params),
+      requestBuilder("GET")
+    );
+    if (response.ok) return resolve(await response.json());
+    else return reject(response);
+  });
 };
 
 const post = async (url: string, body?: any): Promise<any> => {
@@ -91,6 +92,10 @@ interface UserResponse {
   DeletedAt?: string;
 }
 
+const user = async (): Promise<UserResponse> => {
+  return (await get(Methods.User)) as UserResponse;
+};
+
 const login = async ({
   email,
   password,
@@ -116,8 +121,10 @@ const register = async ({
 };
 
 const api = {
+  user,
   login,
   register,
 };
 
+export type { UserResponse };
 export default api;
