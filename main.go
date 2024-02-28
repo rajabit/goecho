@@ -55,6 +55,7 @@ func main() {
 	g := r.Group("/admin")
 	g.Use(middlewares.AdminMiddleware)
 	g.GET("/posts", controllers.AdminPostIndex)
+	g.POST("/posts", controllers.AdminPostStore)
 
 	// data, err := json.MarshalIndent(e.Routes(), "", "  ")
 	// if err != nil {

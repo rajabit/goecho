@@ -25,6 +25,14 @@ type (
 		Password string `json:"password" validate:"required,max=32,min=8"`
 	}
 
+	PostRequest struct {
+		Title     string `json:"title" validate:"required,max=255"`
+		Subtitle  string `json:"subtitle" validate:"required,max=255"`
+		Summary   string `json:"summary" validate:"required,max=1024"`
+		Content   string `json:"content" validate:"required,html"`
+		VideoLink string `json:"video_link" validate:"required,url"`
+	}
+
 	CustomValidator struct {
 		Uni       *ut.UniversalTranslator
 		Validator *validator.Validate

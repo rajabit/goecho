@@ -22,6 +22,7 @@ type User struct {
 	Type      string `json:"Type" gorm:"type:varchar(32);index;default:default;not null"`
 	Password  string `json:"-" gorm:"type:varchar(255);not null"`
 	Token     string `json:"Token" gorm:"-:all"`
+	Post      []Post
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt
@@ -29,27 +30,34 @@ type User struct {
 
 type Post struct {
 	gorm.Model
-	ID        uint `gorm:"primaryKey"`
-	UserID    int
-	User      User
-	Title     string `gorm:"type:varchar(255)"`
-	Subtitle  string `gorm:"type:varchar(255)"`
-	Summary   string `gorm:"type:varchar(1024)"`
-	Content   string `gorm:"type:longtext"`
-	Status    string `gorm:"type:varchar(32);index"`
-	Views     int64
+	ID        uint      `gorm:"primaryKey"`
+	UserID    uint      `json:"UserId"`
+	User      User      `json:"User" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Title     string    `json:"Title" gorm:"type:varchar(255);not null"`
+	Subtitle  string    `json:"Subtitle" gorm:"type:varchar(255);not null"`
+	Summary   string    `json:"Summary" gorm:"type:varchar(1024);not null"`
+	Content   string    `json:"Content" gorm:"type:longtext;not null"`
+	Status    string    `json:"Status" gorm:"type:enum('active','inactive');index;not null;default:inactive"`
+	VideoLink string    `json:"VideoLink" gorm:"type:varchar(255);"`
+	Views     int64     `json:"Views" gorm:"default:0"`
 	CreatedAt time.Time `gorm:"index"`
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt
 }
 
+type Pagination struct {
+	FirstPage   int64
+	CurrentPage int
+	Data        interface{}
+	Total       int64
+	LastPage    int64
+}
 
 type JwtCustomClaims struct {
 	UserId uint   `json:"user_id"`
 	Type   string `json:"type"`
 	jwt.RegisteredClaims
 }
-
 
 func Query() *gorm.DB {
 	if db == nil {
