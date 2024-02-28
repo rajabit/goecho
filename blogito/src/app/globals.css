@@ -133,4 +133,16 @@ body {
   .container.middle {
     @apply flex justify-center items-center
   }
+
+  .list {
+    @apply rounded-md border dark:border-zinc-700 w-full shadow-md flex flex-col divide-y dark:divide-zinc-700
+  }
+
+  .list>.item {
+    @apply w-full p-4 hover:dark:bg-zinc-800 duration-150 ease-in-out flex justify-start items-center
+  }
+
+  .list>.item svg {
+    @apply w-6 h-6 me-4
+  }
 }

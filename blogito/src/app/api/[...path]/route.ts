@@ -25,7 +25,11 @@ const handler = async (req: NextRequest, _: NextResponse) => {
 
   if (path == "auth/login" && result.ok) {
     const cookieStore = cookies();
-    cookieStore.set("jwt", data.Token);
+    cookieStore.set("jwt", data.Token, {
+      secure: true,
+      httpOnly: true,
+      expires: new Date(new Date().getTime() + 60 * 60 * 72 * 1000),
+    });
   }
 
   return Response.json(data, {
